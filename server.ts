@@ -1,7 +1,14 @@
 import {createConnection} from "typeorm";
-import {Client} from "./app/entities/client.entitie";
+import {User} from "./app/entities/user.entitie";
+import { Statement } from "./app/entities/statement.entitie";
+import express from "express"
+import dotenv from "dotenv"
 
+const PORT = process.env.PORT || 5001
+const app = express()
+dotenv.config()
 const main = async ()=>{
+    
     try{
         await createConnection({
             type:"postgres",
@@ -10,7 +17,7 @@ const main = async ()=>{
             username:"postgres",
             password:"root",
             database:"typeormDB",
-            entities:[Client],
+            entities:[User, Statement],
             synchronize: true
         })
         console.log('Connected to PG')
@@ -18,6 +25,7 @@ const main = async ()=>{
         console.log(err)
         throw new Error("unable to connect to PG")
     }
+    app.listen(PORT, ()=>{console.log(`server startet on ${PORT}`)})
 }
 
 main()
