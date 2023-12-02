@@ -3,12 +3,14 @@ import {User} from "./app/entities/user.entitie";
 import { Statement } from "./app/entities/statement.entitie";
 import express from "express"
 import dotenv from "dotenv"
+import authRoutes from "./app/auth/auth.controller"
 
-const PORT = process.env.PORT || 5001
 const app = express()
 dotenv.config()
+const PORT = process.env.PORT || 5001
 const main = async ()=>{
-    
+    app.use(express.json())
+    app.use('/api/auth', authRoutes)
     try{
         await createConnection({
             type:"postgres",
