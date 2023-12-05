@@ -12,12 +12,12 @@ export class User extends Base{
     @Column()
     middle_name:string
 
-    @Column({
-        default:false
-    })
+    @Column()
     is_admin:boolean
 
-    @Column()
+    @Column({
+        unique:true
+    })
     email:string
 
     @Column()
