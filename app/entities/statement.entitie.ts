@@ -13,7 +13,6 @@ export class Statement extends Base {
     @Column()
     status: string;
 
-    @ManyToOne(() => User) 
-    @JoinColumn({ name: "user_id" }) 
-    user: User;
+    @ManyToOne(() => User, (user) => user.statement)
+    user: User
 }

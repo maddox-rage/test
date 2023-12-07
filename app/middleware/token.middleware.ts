@@ -1,4 +1,6 @@
 import {Itoken} from "./token.interface";
+import {User} from "../entities/user.entitie";
+
 
 export function generateToken(userData:Itoken) {
     const userDataString = JSON.stringify(userData);
@@ -8,14 +10,24 @@ export function generateToken(userData:Itoken) {
     return token
 }
 
-export function decodeToken(token:string) {
-    const [encodedData, uniqueId] = token.split('_');
-    const decodedData = atob(encodedData);
-    const userData = JSON.parse(decodedData);
-    return {
-        userData,
-        uniqueId
-    };
+export function decodeToken( token:string) {
+      try{
+          const [encodedData, uniqueId] = token.split('_');
+          const decodedData = atob(encodedData);
+          const userData = JSON.parse(decodedData);
+          const admin = userData.is_admin
+          const person = User.findOneBy({
+              id:userData.id
+          })
+          if(!person) return undefined
+          return {
+              userData,
+              uniqueId,
+              admin
+          }
+      }catch (e) {
+          return undefined
+      }
 }
 
 

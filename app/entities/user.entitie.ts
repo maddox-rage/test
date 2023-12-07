@@ -1,5 +1,6 @@
-import {Entity, Column}  from "typeorm"
+import {Entity, Column, OneToMany}  from "typeorm"
 import { Base } from "./utils/base.entitie"
+import {Statement} from "./statement.entitie";
 
 @Entity("user")
 export class User extends Base{
@@ -31,9 +32,6 @@ export class User extends Base{
     })
     login:string
 
-    // @Column({
-    //     type:"simple-array",
-    //     default:[]
-    // })
-    // statement:string[]
+    @OneToMany(() => Statement, (statement) => statement.user)
+    statement: Statement[]
 }
